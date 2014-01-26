@@ -52,8 +52,8 @@ ExternalProject_Add(
   LOG_BUILD ON
   CONFIGURE_COMMAND ""
   BUILD_IN_SOURCE 1
-  BUILD_COMMAND scons ${MONGOCLIENT_BUILD_OPTS} mongoclient
-  INSTALL_COMMAND scons --prefix=<INSTALL_DIR> ${MONGOCLIENT_BUILD_OPTS} check-install-mongoclient
+  BUILD_COMMAND ""
+  INSTALL_COMMAND scons --prefix=<INSTALL_DIR> ${MONGOCLIENT_BUILD_OPTS} install-mongoclient
 )
 
 # Add mongo-cxx-driver installed headers and libs
