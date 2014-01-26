@@ -31,6 +31,10 @@ link_directories(${binary_dir})
 # TODO: Make concurrency of build match cmake
 # TODO: Only do --libc++ when building on OS X when libc++ is the system default
 set(MONGOCLIENT_BUILD_OPTS
+  --warn=no-missing-sconscript
+  --quiet
+  --cache
+  --mute
   --full
   --sharedclient
   --use-system-boost
