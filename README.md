@@ -12,10 +12,10 @@ Currently only works on Mavericks with XCode 5.
 
 Instructions:
 
-git clone git@github.com:acmorrow/mongo-cxx-driver-test.git
-cd mongo-cxx-driver-test
-mkdir build
-cd build
-cmake ..
-make all test
+    git clone git@github.com:acmorrow/mongo-cxx-driver-test.git
+    cd mongo-cxx-driver-test
+    mkdir build
+    cd build
+    cmake ..
+    make all test
 
