@@ -100,6 +100,5 @@ macro (create_ported_test test_path test_name)
   add_test (ported.${test_name} ${test_name})
 endmacro ()
 
-create_ported_test (
-  ported/src/mongo/bson bson_field_test
-)
+create_ported_test (ported/src/mongo/bson bson_field_test)
+create_ported_test (ported/src/mongo/bson bson_obj_test)
