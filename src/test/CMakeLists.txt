@@ -74,6 +74,7 @@ ExternalProject_Add(
 # Add mongo-cxx-driver installed headers and libs
 ExternalProject_Get_Property (mongo-cxx-driver install_dir)
 include_directories (${install_dir}/include)
+include_directories (${PROJECT_SOURCE_DIR}/src/test)
 link_directories (${install_dir}/lib)
 
 macro (create_test suite_name test_name)
@@ -92,3 +93,15 @@ endmacro ()
 create_tests (bson
   test_oid
 )
+
+macro (create_ported_test test_path test_name)
+  add_executable (${test_name} ${test_path}/${test_name}.cpp)
+  add_dependencies (${test_name} mongo-cxx-driver googletest)
+  target_link_libraries(${test_name} mongoclient ${Boost_LIBRARIES} gtest gtest_main)
+  add_test (ported.${test_name} ${test_name})
+endmacro ()
+
+create_ported_test (ported/src/mongo/bson bson_field_test)
+create_ported_test (ported/src/mongo/bson bson_obj_test)
+create_ported_test (ported/src/mongo/bson bson_validate_test)
+create_ported_test (ported/src/mongo/bson bsonobjbuilder_test)
