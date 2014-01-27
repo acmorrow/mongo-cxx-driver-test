@@ -6,5 +6,5 @@ set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/lib/cmake")
 
 include (InstallRequiredSystemLibraries)
 
-enable_testing()
+enable_testing ()
 add_subdirectory (src)
