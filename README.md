@@ -8,8 +8,6 @@ then builds and runs unit tests against the built driver.
 
 Written in CMake for expediency due to awesome power of ExternalProject_add.
 
-Currently only works on Mavericks with XCode 5.
-
 Instructions:
 
     git clone git@github.com:acmorrow/mongo-cxx-driver-test.git
