@@ -1,6 +1,14 @@
 #ifndef included_587DD57A_CD2F_4580_81C6_EC13D0764C6
 #define included_587DD57A_CD2F_4580_81C6_EC13D0764C6
 
+/*
+ * Shim to allow mongoclient tests to build with gtest instead of
+ * built in MongoDB unittest framework.
+ *
+ * Note: FAIL(str) has been converted to FAIL() << str; in tests.
+ *
+ */
+
 #include <gtest/gtest.h>
 
 #include <boost/shared_ptr.hpp>
@@ -25,6 +33,7 @@ inline int checksum( const char* x , int size ) {
     return ck;
 }
 
+// from src/mongo/util/mongoutils/str.h
 namespace str {
     inline bool contains(const std::string& s, const std::string& x) {
         return strstr(s.c_str(), x.c_str()) != 0;
