@@ -105,3 +105,6 @@ create_ported_test (ported/src/mongo/bson bson_field_test)
 create_ported_test (ported/src/mongo/bson bson_obj_test)
 create_ported_test (ported/src/mongo/bson bson_validate_test)
 create_ported_test (ported/src/mongo/bson bsonobjbuilder_test)
+
+create_ported_test (ported/src/mongo/dbtests jsobjtests)
+create_ported_test (ported/src/mongo/dbtests jsontests)
