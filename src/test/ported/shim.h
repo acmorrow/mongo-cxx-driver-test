@@ -23,6 +23,12 @@
 #define ASSERT_NOT_OK(EXPRESSION) ASSERT_NOT_EQUALS(::mongo::Status::OK(), (EXPRESSION))
 #define ASSERT_THROWS(STATEMENT, EXCEPTION) ASSERT_THROW(STATEMENT, EXCEPTION)
 
+namespace mongo {
+    namespace unittest {
+        typedef ::testing::Test Test;
+    }
+}
+
 using namespace mongo;
 using namespace mongoutils;
 using boost::shared_ptr;

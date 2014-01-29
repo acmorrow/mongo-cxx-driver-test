@@ -203,7 +203,6 @@ namespace {
     }
 #endif
 
-
     class CallMongoInit {
         public:
             CallMongoInit() {
@@ -214,7 +213,7 @@ namespace {
     // This should match the name of the fail point declared in sock.cpp.
     const char kSocketFailPointName[] = "throwSockExcep";
 
-    class SocketFailPointTest : public ::testing::Test {
+    class SocketFailPointTest : public unittest::Test {
     public:
 
         SocketFailPointTest() :
