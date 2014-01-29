@@ -2079,7 +2079,7 @@ namespace JsobjTests {
                               << "asdasdasdas" << "asldkasldjasldjasldjlasjdlasjdlasdasdasdasdasdasdasd" );
 
             {
-	        //Timer t;
+	            //Timer t;
                 for ( int i=0; i<N; i++ )
                     x.md5();
                 //int millis = t.millis();
@@ -2087,7 +2087,7 @@ namespace JsobjTests {
             }
 
             {
-	        //Timer t;
+	            //Timer t;
                 for ( int i=0; i<N; i++ )
                     x.toString();
                 //int millis = t.millis();
@@ -2095,9 +2095,9 @@ namespace JsobjTests {
             }
 
             {
-	        //Timer t;
-                for ( int i=0; i<N; i++ )
-                    checksum( x.objdata() , x.objsize() );
+	            //Timer t;
+                //for ( int i=0; i<N; i++ )
+                //    checksum( x.objdata() , x.objsize() );
                 //int millis = t.millis();
                 //cout << "checksum : " << millis << endl;
             }

@@ -12,6 +12,7 @@
 #include <gtest/gtest.h>
 
 #include <boost/shared_ptr.hpp>
+#include <mongo/util/mongoutils/str.h>
 
 #define ASSERT ASSERT_TRUE
 #define ASSERT_EQUALS ASSERT_EQ
@@ -23,21 +24,7 @@
 #define ASSERT_THROWS(STATEMENT, EXCEPTION) ASSERT_THROW(STATEMENT, EXCEPTION)
 
 using namespace mongo;
+using namespace mongoutils;
 using boost::shared_ptr;
-
-// from src/mongo/util/mongoutils/checksum.h
-inline int checksum( const char* x , int size ) {
-    int ck = 0;
-    for ( int i=0; i<size; i++ )
-        ck += ( (int)x[i] * ( i + 1 ) );
-    return ck;
-}
-
-// from src/mongo/util/mongoutils/str.h
-namespace str {
-    inline bool contains(const std::string& s, const std::string& x) {
-        return strstr(s.c_str(), x.c_str()) != 0;
-    }
-}
 
 #endif
