@@ -25,4 +25,10 @@ inline int checksum( const char* x , int size ) {
     return ck;
 }
 
+namespace str {
+    inline bool contains(const std::string& s, const std::string& x) {
+        return strstr(s.c_str(), x.c_str()) != 0;
+    }
+}
+
 #endif
