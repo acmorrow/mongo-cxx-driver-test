@@ -73,6 +73,10 @@ ExternalProject_Add(
 # config.h header, see CXX-23.
 add_definitions (-DMONGO_SSL)
 
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    add_definitions(-D_DEBUG)
+endif ()
+
 # Add mongo-cxx-driver installed headers and libs
 ExternalProject_Get_Property (mongo-cxx-driver install_dir)
 include_directories (${install_dir}/include)
