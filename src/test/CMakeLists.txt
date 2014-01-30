@@ -71,6 +71,10 @@ ExternalProject_Add(
   INSTALL_COMMAND scons --prefix=<INSTALL_DIR> ${MONGOCLIENT_SCONS_FLAGS} install-mongoclient
 )
 
+# NOTE: The following should not be necessary if libmongoclient had a properly constructed
+# config.h header, see CXX-23.
+add_definitions (-DMONGO_SSL)
+
 # Add mongo-cxx-driver installed headers and libs
 ExternalProject_Get_Property (mongo-cxx-driver install_dir)
 include_directories (${install_dir}/include)
