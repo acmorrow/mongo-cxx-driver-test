@@ -31,9 +31,7 @@ link_directories (${binary_dir})
 set (MONGOCLIENT_SCONS_FLAGS
   ${MONGOCLIENT_SCONS_FLAGS}
   --warn=no-missing-sconscript
-  --quiet
   --cache
-  --mute
   --full
   --use-system-boost
   --allocator=system
