@@ -85,6 +85,7 @@ link_directories (${install_dir}/lib)
 
 add_library(clienttest_main clienttest_main.cpp)
 target_link_libraries(clienttest_main mongoclient gtest)
+add_dependencies(clienttest_main googletest mongo-cxx-driver)
 
 macro (create_test suite_name test_name)
   add_executable (${suite_name}.${test_name} ${test_name}.cpp)
