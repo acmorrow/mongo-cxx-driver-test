@@ -24,10 +24,21 @@
 #define ASSERT_THROWS(STATEMENT, EXCEPTION) ASSERT_THROW(STATEMENT, EXCEPTION)
 
 namespace mongo {
+
     namespace unittest {
-        typedef ::testing::Test Test;
-    }
-}
+        class Test : public ::testing::Test {
+            virtual void setUp() {}
+            virtual void SetUp() {
+                setUp();
+            }
+
+            virtual void tearDown() {}
+            virtual void TearDown() {
+                tearDown();
+            }
+        };
+    } // unittest
+} // mongo
 
 using namespace mongo;
 using namespace mongoutils;
