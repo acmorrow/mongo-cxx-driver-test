@@ -38,11 +38,10 @@
 #include <sys/types.h>
 #endif
 
-#include <mongo/db/server_options.h>
-#include <mongo/util/concurrency/synchronization.h>
-#include <mongo/util/fail_point_service.h>
-
-#include "ported/shim.h"
+#include "mongo/db/server_options.h"
+#include "mongo/unittest/unittest.h"
+#include "mongo/util/concurrency/synchronization.h"
+#include "mongo/util/fail_point_service.h"
 
 namespace {
 

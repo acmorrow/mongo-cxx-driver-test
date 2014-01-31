@@ -39,9 +39,8 @@
 //#include "mongo/dbtests/dbtests.h"
 #include "mongo/platform/float_utils.h"
 //#include "mongo/util/mongoutils/checksum.h"
+#include "mongo/unittest/unittest.h"
 #include "mongo/util/stringutils.h"
-
-#include "ported/shim.h"
 
 namespace JsobjTests {
 

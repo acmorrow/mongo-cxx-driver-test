@@ -13,10 +13,10 @@
  *    limitations under the License.
  */
 
-#include <mongo/db/jsobj.h>
-#include <mongo/db/json.h>
+#include "mongo/db/jsobj.h"
+#include "mongo/db/json.h"
 
-#include "ported/shim.h"
+#include "mongo/unittest/unittest.h"
 
 namespace {
 

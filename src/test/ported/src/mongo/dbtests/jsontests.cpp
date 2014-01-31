@@ -35,8 +35,7 @@
 
 #include "mongo/db/jsobj.h"
 #include "mongo/db/json.h"
-//#include "mongo/dbtests/dbtests.h"
-#include "ported/shim.h"
+#include "mongo/unittest/unittest.h"
 
 
 namespace JsonTests {

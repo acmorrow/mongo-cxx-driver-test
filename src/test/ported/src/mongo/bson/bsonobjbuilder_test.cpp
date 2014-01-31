@@ -30,11 +30,11 @@
  * tests for BSONObjBuilder
  */
 
-#include <mongo/db/jsobj.h>
-#include <mongo/db/json.h>
+#include "mongo/db/jsobj.h"
+#include "mongo/db/json.h"
 
 #include <sstream>
-#include "ported/shim.h"
+#include "mongo/unittest/unittest.h"
 
 namespace {
 

@@ -33,7 +33,7 @@
 #include "mongo/client/replica_set_monitor_internal.h"
 #include "mongo/dbtests/mock/mock_conn_registry.h"
 #include "mongo/dbtests/mock/mock_replica_set.h"
-#include "ported/shim.h"
+#include "mongo/unittest/unittest.h"
 
 #include <set>
 #include <vector>
