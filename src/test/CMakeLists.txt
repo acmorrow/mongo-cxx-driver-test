@@ -30,6 +30,8 @@ link_directories (${binary_dir})
 # TODO: Make concurrency of build match cmake (how?)
 set (MONGOCLIENT_SCONS_FLAGS
   ${MONGOCLIENT_SCONS_FLAGS}
+  --cc=${CMAKE_C_COMPILER}
+  --cxx=${CMAKE_CXX_COMPILER}
   --warn=no-missing-sconscript
   --cache
   --full
@@ -40,6 +42,11 @@ set (MONGOCLIENT_SCONS_FLAGS
   --ssl
   --use-sasl-client
 )
+
+# If we are using address sanitizer, enable that too
+if (SANITIZE)
+  list (APPEND MONGOCLIENT_SCONS_FLAGS --sanitize=address)
+endif ()
 
 # On Mavericks, presume that boost is linked to libc++
 if (APPLE)

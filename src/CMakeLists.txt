@@ -11,4 +11,15 @@ find_package (Boost
 include_directories (${Boost_INCLUDE_DIRS})
 link_directories (${Boost_LIBRARY_DIRS})
 
+option(SANITIZE "SANITIZE" OFF)
+if(SANITIZE)
+  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    list(APPEND CMAKE_C_FLAGS "-fsanitize=address")
+    list(APPEND CMAKE_C_LINK_FLAGS "-fsanitize=address")
+    list(APPEND CMAKE_CXX_LINK_FLAGS "-fsanitize=address")
+  else()
+    message(WARNING "Option SANITIZE specified but compiler is not clang (${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ID}).")
+  endif()
+ endif()
+
 add_subdirectory (test)
