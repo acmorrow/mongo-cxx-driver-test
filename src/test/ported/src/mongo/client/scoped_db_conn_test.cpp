@@ -16,8 +16,9 @@
 #include "mongo/base/init.h"
 #include "mongo/client/connpool.h"
 #include "mongo/platform/cstdint.h"
-#include "mongo/util/net/message_port.h"
-#include "mongo/util/net/message_server.h"
+//#include "mongo/util/net/message_port.h"
+//#include "mongo/util/net/message_server.h"
+#include "mongo/util/net/listen.h"
 #include "mongo/util/fail_point_service.h"
 #include "mongo/util/time_support.h"
 #include "mongo/util/timer.h"
@@ -45,14 +46,14 @@ namespace {
     const string TARGET_HOST = "localhost:27017";
     const int TARGET_PORT = 27017;
 
-    mongo::mutex shutDownMutex("shutDownMutex");
-    bool shuttingDown = false;
+    //mongo::mutex shutDownMutex("shutDownMutex");
+    //bool shuttingDown = false;
 }
 
 namespace mongo {
     // Symbols defined to build the binary correctly.
 
-    bool inShutdown() {
+    /*bool inShutdown() {
         scoped_lock sl(shutDownMutex);
         return shuttingDown;
     }
@@ -94,23 +95,21 @@ namespace mongo_test {
     // TODO: Take this out and make it as a reusable class in a header file. The only
     // thing that is preventing this from happening is the dependency on the inShutdown
     // method to terminate the socket listener thread.
-    /**
-     * Very basic server that accepts connections. Note: can only create one instance
-     * at a time. Should not create as a static global instance because of dependency
-     * with ListeningSockets::_instance.
-     *
-     * Warning: Not thread-safe
-     *
-     * Note: external symbols used:
-     * shutDownMutex, shuttingDown
-     */
+    *
+     Very basic server that accepts connections. Note: can only create one instance
+     at a time. Should not create as a static global instance because of dependency
+     with ListeningSockets::_instance.
+    
+     Warning: Not thread-safe
+    
+     Note: external symbols used:
+     shutDownMutex, shuttingDown
     class DummyServer {
     public:
-        /**
-         * Creates a new server that listens to the given port.
-         *
-         * @param port the port number to listen to.
-         */
+        *
+         Creates a new server that listens to the given port.
+        
+         @param port the port number to listen to.
         DummyServer(int port): _port(port), _server(NULL) {
         }
 
@@ -118,12 +117,11 @@ namespace mongo_test {
             stop();
         }
 
-        /**
-         * Starts the server if it is not yet running.
-         *
-         * @param messageHandler the message handler to use for this server. Ownership
-         *     of this object is passed to this server.
-         */
+        *
+         Starts the server if it is not yet running.
+        
+         @param messageHandler the message handler to use for this server. Ownership
+             of this object is passed to this server.
         void run(mongo::MessageHandler* messsageHandler) {
             if (_server != NULL) {
                 return;
@@ -141,9 +139,8 @@ namespace mongo_test {
             _serverThread = boost::thread(runServer, _server);
         }
 
-        /**
-         * Stops the server if it is running.
-         */
+        *
+         Stops the server if it is running.
         void stop() {
             if (_server == NULL) {
                 return;
@@ -173,9 +170,8 @@ namespace mongo_test {
             _server = NULL;
         }
 
-        /**
-         * Helper method for running the server on a separate thread.
-         */
+        *
+         Helper method for running the server on a separate thread.
         static void runServer(mongo::MessageServer* server) {
             server->setupSockets();
             server->run();
@@ -187,9 +183,8 @@ namespace mongo_test {
         mongo::MessageServer* _server;
     };
 
-    /**
-     * Warning: cannot run in parallel
-     */
+    *
+     Warning: cannot run in parallel
     class DummyServerFixture: public mongo::unittest::Test {
     public:
         void setUp() {
@@ -229,15 +224,14 @@ namespace mongo_test {
             ASSERT_NOT_EQUALS(a, b);
         }
 
-        /**
-         * Tries to grab a series of connections from the pool, perform checks on
-         * them, then put them back into the pool. After that, it checks these
-         * connections can be retrieved again from the pool.
-         *
-         * @param checkFunc method for comparing new connections and arg2.
-         * @param arg2 the value to pass as the 2nd parameter of checkFunc.
-         * @param newConnsToCreate the number of new connections to make.
-         */
+        *
+         Tries to grab a series of connections from the pool, perform checks on
+         them, then put them back into the pool. After that, it checks these
+         connections can be retrieved again from the pool.
+        
+         @param checkFunc method for comparing new connections and arg2.
+         @param arg2 the value to pass as the 2nd parameter of checkFunc.
+         @param newConnsToCreate the number of new connections to make.
         void checkNewConns(void (*checkFunc)(uint64_t, uint64_t), uint64_t arg2,
                 size_t newConnsToCreate) {
             vector<ScopedDbConnection*> newConnList;
@@ -279,6 +273,93 @@ namespace mongo_test {
 
         DummyServer* _dummyServer;
         uint32_t _maxPoolSizePerHost;
+    };*/
+
+    class TestListener : public Listener {
+        public:
+            TestListener() : Listener("test", "", TARGET_PORT) {}
+
+            void accepted(boost::shared_ptr<Socket> psocket, long long connectionId) {}
+
+            void operator()() {
+                Listener::setupSockets();
+                Listener::initAndListen();
+            }
+    };
+
+    class DummyServerFixture : public ::testing::Test {
+        public:
+            DummyServerFixture() {
+                _listener = new TestListener();
+                _thread = new boost::thread(boost::ref(*_listener));
+                _maxPoolSizePerHost = mongo::PoolForHost::getMaxPerHost();
+            }
+
+            ~DummyServerFixture() {
+                mongo::ListeningSockets::get()->closeAll();
+                mongo::PoolForHost::setMaxPerHost(_maxPoolSizePerHost);
+                mongo::ScopedDbConnection::clearPool();
+
+                delete _thread;
+                delete _listener;
+            }
+
+        protected:
+            static void assertGreaterThan(uint64_t a, uint64_t b) {
+                ASSERT_GREATER_THAN(a, b);
+            }
+
+            static void assertNotEqual(uint64_t a, uint64_t b) {
+                ASSERT_NOT_EQUALS(a, b);
+            }
+
+            /**
+            * Tries to grab a series of connections from the pool, perform checks on
+            * them, then put them back into the pool. After that, it checks these
+            * connections can be retrieved again from the pool.
+            *
+            * @param checkFunc method for comparing new connections and arg2.
+            * @param arg2 the value to pass as the 2nd parameter of checkFunc.
+            * @param newConnsToCreate the number of new connections to make.
+            */
+            void checkNewConns(void (*checkFunc)(uint64_t, uint64_t), uint64_t arg2,
+                    size_t newConnsToCreate) {
+
+                vector<ScopedDbConnection*> newConnList;
+
+                for (size_t x = 0; x < newConnsToCreate; x++) {
+                    ScopedDbConnection* newConn = new ScopedDbConnection(TARGET_HOST);
+                    checkFunc(newConn->get()->getSockCreationMicroSec(), arg2);
+                    newConnList.push_back(newConn);
+                }
+
+                const uint64_t oldCreationTime = mongo::curTimeMicros64();
+
+                for (vector<ScopedDbConnection*>::iterator iter = newConnList.begin();
+                        iter != newConnList.end(); ++iter) {
+                    (*iter)->done();
+                    delete *iter;
+                }
+                newConnList.clear();
+
+                // Check that connections created after the purge was put back to the pool.
+                for (size_t x = 0; x < newConnsToCreate; x++) {
+                    ScopedDbConnection* newConn = new ScopedDbConnection(TARGET_HOST);
+                    ASSERT_LESS_THAN(newConn->get()->getSockCreationMicroSec(), oldCreationTime);
+                    newConnList.push_back(newConn);
+                }
+
+                for (vector<ScopedDbConnection*>::iterator iter = newConnList.begin();
+                        iter != newConnList.end(); ++iter) {
+                    (*iter)->done();
+                    delete *iter;
+                }
+            }
+
+        private:
+            TestListener* _listener;
+            boost::thread* _thread;
+            uint32_t _maxPoolSizePerHost;
     };
 
     TEST_F(DummyServerFixture, BasicScopedDbConnection) {
