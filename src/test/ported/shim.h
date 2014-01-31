@@ -33,4 +33,12 @@ using namespace mongo;
 using namespace mongoutils;
 using boost::shared_ptr;
 
+#define DBTEST_SHIM_TEST_NAMED(klass, name, ...)     \
+    TEST(klass, name) {                              \
+        klass(__VA_ARGS__).run();                    \
+    }                                                \
+
+#define DBTEST_SHIM_TEST(klass, ...)                 \
+    DBTEST_SHIM_TEST_NAMED(klass, Test, __VA_ARGS__) \
+
 #endif

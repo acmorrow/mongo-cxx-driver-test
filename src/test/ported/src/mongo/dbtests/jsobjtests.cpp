@@ -118,7 +118,7 @@ namespace JsobjTests {
                 ASSERT( strcmp( "foo", b.buf() ) == 0 );
             }
         }
-    };
+    }; DBTEST_SHIM_TEST(BufBuilderBasic);
 
     class BufBuilderReallocLimit {
     public:
@@ -134,7 +134,7 @@ namespace JsobjTests {
             // assert half of max buffer size was allocated before exception is thrown
             ASSERT(written == mongo::BufferMaxSize / 2);
         }
-    };
+    }; DBTEST_SHIM_TEST(BufBuilderReallocLimit);
 
     class BSONElementBasic {
     public:
@@ -144,7 +144,7 @@ namespace JsobjTests {
             BSONObj x;
             ASSERT_EQUALS( 1, x.firstElement().size() );
         }
-    };
+    }; DBTEST_SHIM_TEST(BSONElementBasic);
 
     namespace BSONObjTests {
         class Create {
@@ -153,7 +153,7 @@ namespace JsobjTests {
                 BSONObj b;
                 ASSERT_EQUALS( 0, b.nFields() );
             }
-        };
+        }; DBTEST_SHIM_TEST(Create);
 
         class Base {
         protected:
@@ -184,7 +184,7 @@ namespace JsobjTests {
                 // field name comparison
                 ASSERT( basic( "a", 1 ).woCompare( basic( "b", 1 ) ) < 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoCompareBasic);
 
         class IsPrefixOf : public Base {
         public:
@@ -214,14 +214,14 @@ namespace JsobjTests {
                     verify( ! k.isFieldNamePrefixOf( BSON( "a" << 1  ) ) );
                 }
             }
-        };
+        }; DBTEST_SHIM_TEST(IsPrefixOf);
 
         class NumericCompareBasic : public Base {
         public:
             void run() {
                 ASSERT( basic( "a", 1 ).woCompare( basic( "a", 1.0 ) ) == 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(NumericCompareBasic);
 
         class WoCompareEmbeddedObject : public Base {
         public:
@@ -231,7 +231,7 @@ namespace JsobjTests {
                 ASSERT( basic( "a", basic( "b", 1 ) ).woCompare
                         ( basic( "a", basic( "b", 2 ) ) ) < 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoCompareEmbeddedObject);
 
         class WoCompareEmbeddedArray : public Base {
         public:
@@ -249,7 +249,7 @@ namespace JsobjTests {
                 j.push_back( 3 );
                 ASSERT( basic( "a", i ).woCompare( basic( "a", j ) ) < 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoCompareEmbeddedArray);
 
         class WoCompareOrdered : public Base {
         public:
@@ -261,7 +261,7 @@ namespace JsobjTests {
                 ASSERT( basic( "a", 2 ).woCompare( basic( "a", 1 ), basic( "a", -1 ) ) < 0 );
                 ASSERT( basic( "a", 1 ).woCompare( basic( "a", 2 ), basic( "a", -1 ) ) > 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoCompareOrdered);
 
         class WoCompareDifferentLength : public Base {
         public:
@@ -269,7 +269,7 @@ namespace JsobjTests {
                 ASSERT( BSON( "a" << 1 ).woCompare( BSON( "a" << 1 << "b" << 1 ) ) < 0 );
                 ASSERT( BSON( "a" << 1 << "b" << 1 ).woCompare( BSON( "a" << 1 ) ) > 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoCompareDifferentLength);
 
         class WoSortOrder : public Base {
         public:
@@ -277,7 +277,7 @@ namespace JsobjTests {
                 ASSERT( BSON( "a" << 1 ).woSortOrder( BSON( "a" << 2 ), BSON( "b" << 1 << "a" << 1 ) ) < 0 );
                 ASSERT( fromjson( "{a:null}" ).woSortOrder( BSON( "b" << 1 ), BSON( "a" << 1 ) ) == 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(WoSortOrder);
 
         class MultiKeySortOrder : public Base {
         public:
@@ -342,7 +342,7 @@ namespace JsobjTests {
                 }
 
             }
-        };
+        }; DBTEST_SHIM_TEST(MultiKeySortOrder);
 
         class Nan : public Base {
         public:
@@ -380,7 +380,7 @@ namespace JsobjTests {
                 ASSERT( BSON( "a" << inf ).woCompare( BSON( "a" << nan2 ) ) > 0 );
                 ASSERT( BSON( "a" << nan ).woCompare( BSON( "a" << nan2 ) ) == 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(Nan);
 
         class AsTempObj {
         public:
@@ -444,7 +444,7 @@ namespace JsobjTests {
                     ASSERT(obj.hasField("b"));
                 }
             }
-        };
+        }; DBTEST_SHIM_TEST(AsTempObj);
 
         struct AppendIntOrLL {
             void run() {
@@ -523,7 +523,7 @@ namespace JsobjTests {
                 ASSERT(o["L6"].type() == NumberLong);
                 ASSERT(o["L6"].number() == -16*billion);
             }
-        };
+        }; DBTEST_SHIM_TEST(AppendIntOrLL);
 
         struct AppendNumber {
             void run() {
@@ -544,7 +544,7 @@ namespace JsobjTests {
                 ASSERT( o["e"].type() == NumberLong );
 
             }
-        };
+        }; DBTEST_SHIM_TEST(AppendNumber);
 
         class ToStringArray {
         public:
@@ -689,7 +689,7 @@ namespace JsobjTests {
                     //keyTest( o );
                 }
           }
-        };
+        }; DBTEST_SHIM_TEST(ToStringArray);
 
         class ToStringNumber {
         public:
@@ -720,7 +720,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS( "-123.456" , x["g"].toString( false , true ) );
 
             }
-        };
+        }; DBTEST_SHIM_TEST(ToStringNumber);
 
         class NullString {
         public:
@@ -778,7 +778,7 @@ namespace JsobjTests {
 
             }
 
-        };
+        }; DBTEST_SHIM_TEST(NullString);
 
         class AppendAs {
         public:
@@ -790,7 +790,7 @@ namespace JsobjTests {
                 }
                 ASSERT_EQUALS( BSON( "bar" << 1 ), b.done() );
             }
-        };
+        }; DBTEST_SHIM_TEST(AppendAs);
 
         class ArrayAppendAs {
         public:
@@ -805,7 +805,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS( expected.firstElement(), a[ 3 ] );
                 ASSERT_EQUALS( 4, a.nFields() );
             }
-        };
+        }; DBTEST_SHIM_TEST(ArrayAppendAs);
 
         class GetField {
         public:
@@ -829,7 +829,7 @@ namespace JsobjTests {
                 ASSERT( o.getFieldDotted( "b.a." ).eoo() );
                 //keyTest(o);
             }
-        };
+        }; DBTEST_SHIM_TEST(GetField);
 
         class ToStringRecursionDepth {
         public:
@@ -880,7 +880,7 @@ namespace JsobjTests {
                 nestedBSON = recursiveBSON( BSONObj::maxToStringRecursionDepth + 1 );
                 ASSERT_THROWS( nestedBSON.toString( s, false, true ) , UserException );
             }
-        };
+        }; DBTEST_SHIM_TEST(ToStringRecursionDepth);
 
         class StringWithNull {
         public:
@@ -893,7 +893,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS(escape(output), escape(input)); // for better failure output
                 ASSERT_EQUALS(output, input);
             }
-        };
+        }; DBTEST_SHIM_TEST(StringWithNull);
 
         namespace Validation {
 
@@ -924,7 +924,7 @@ namespace JsobjTests {
                     set( ret, 4, 50 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(BadType);
 
             class EooBeforeEnd : public Base {
                 BSONObj valid() const {
@@ -937,7 +937,7 @@ namespace JsobjTests {
                     // re-read size for BSONObj::details
                     return ret.copy();
                 }
-            };
+            }; DBTEST_SHIM_TEST(EooBeforeEnd);
 
             class Undefined : public Base {
             public:
@@ -948,7 +948,7 @@ namespace JsobjTests {
                     set( o, 4, mongo::Undefined );
                     ASSERT( o.valid() );
                 }
-            };
+            }; DBTEST_SHIM_TEST(Undefined);
 
             class TotalSizeTooSmall : public Base {
                 BSONObj valid() const {
@@ -961,7 +961,7 @@ namespace JsobjTests {
                     // re-read size for BSONObj::details
                     return ret.copy();
                 }
-            };
+            }; DBTEST_SHIM_TEST(TotalSizeTooSmall);
 
             class EooMissing : public Base {
                 BSONObj valid() const {
@@ -975,7 +975,7 @@ namespace JsobjTests {
                     // re-read size for BSONObj::details
                     return ret.copy();
                 }
-            };
+            }; DBTEST_SHIM_TEST(EooMissing);
 
             class WrongStringSize : public Base {
                 BSONObj valid() const {
@@ -990,7 +990,7 @@ namespace JsobjTests {
                     ((char*)ret.firstElement().valuestr())[1] = 1;
                     return ret.copy();
                 }
-            };
+            }; DBTEST_SHIM_TEST(WrongStringSize);
 
             class ZeroStringSize : public Base {
                 BSONObj valid() const {
@@ -1001,7 +1001,7 @@ namespace JsobjTests {
                     set( ret, 7, 0 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(ZeroStringSize);
 
             class NegativeStringSize : public Base {
                 BSONObj valid() const {
@@ -1012,7 +1012,7 @@ namespace JsobjTests {
                     set( ret, 10, -100 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(NegativeStringSize);
 
             class WrongSubobjectSize : public Base {
                 BSONObj valid() const {
@@ -1024,7 +1024,7 @@ namespace JsobjTests {
                     set( ret, 7, get( ret, 7 ) + 1 );
                     return ret.copy();
                 }
-            };
+            }; DBTEST_SHIM_TEST(WrongSubobjectSize);
 
             class WrongDbrefNsSize : public Base {
                 BSONObj valid() const {
@@ -1036,7 +1036,7 @@ namespace JsobjTests {
                     set( ret, 7, get( ret, 7 ) + 1 );
                     return ret.copy();
                 };
-            };
+            }; DBTEST_SHIM_TEST(WrongDbrefNsSize);
 
             class NoFieldNameEnd : public Base {
                 BSONObj valid() const {
@@ -1047,7 +1047,7 @@ namespace JsobjTests {
                     memset( const_cast< char * >( ret.objdata() ) + 5, 0xff, ret.objsize() - 5 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(NoFieldNameEnd);
 
             class BadRegex : public Base {
                 BSONObj valid() const {
@@ -1058,7 +1058,7 @@ namespace JsobjTests {
                     memset( const_cast< char * >( ret.objdata() ) + 7, 0xff, ret.objsize() - 7 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(BadRegex);
 
             class BadRegexOptions : public Base {
                 BSONObj valid() const {
@@ -1069,7 +1069,7 @@ namespace JsobjTests {
                     memset( const_cast< char * >( ret.objdata() ) + 9, 0xff, ret.objsize() - 9 );
                     return ret;
                 }
-            };
+            }; DBTEST_SHIM_TEST(BadRegexOptions);
 
             class CodeWScopeBase : public Base {
                 BSONObj valid() const {
@@ -1092,37 +1092,37 @@ namespace JsobjTests {
                 void modify( BSONObj &o ) const {
                     set( o, 7, 7 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeSmallSize);
 
             class CodeWScopeZeroStrSize : public CodeWScopeBase {
                 void modify( BSONObj &o ) const {
                     set( o, 11, 0 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeZeroStrSize);
 
             class CodeWScopeSmallStrSize : public CodeWScopeBase {
                 void modify( BSONObj &o ) const {
                     set( o, 11, 1 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeSmallStrSize);
 
             class CodeWScopeNoSizeForObj : public CodeWScopeBase {
                 void modify( BSONObj &o ) const {
                     set( o, 7, 13 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeNoSizeForObj);
 
             class CodeWScopeSmallObjSize : public CodeWScopeBase {
                 void modify( BSONObj &o ) const {
                     set( o, 17, 1 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeSmallObjSize);
 
             class CodeWScopeBadObject : public CodeWScopeBase {
                 void modify( BSONObj &o ) const {
                     set( o, 21, JSTypeMax + 1 );
                 }
-            };
+            }; DBTEST_SHIM_TEST(CodeWScopeBadObject);
 
             class NoSize {
             public:
@@ -1135,6 +1135,15 @@ namespace JsobjTests {
             private:
                 BSONType type_;
             };
+
+            DBTEST_SHIM_TEST_NAMED( NoSize, Symbol, Symbol );
+            DBTEST_SHIM_TEST_NAMED( NoSize, Code, Code );
+            DBTEST_SHIM_TEST_NAMED( NoSize, String, String );
+            DBTEST_SHIM_TEST_NAMED( NoSize, CodeWScope, CodeWScope );
+            DBTEST_SHIM_TEST_NAMED( NoSize, DBRef, DBRef );
+            DBTEST_SHIM_TEST_NAMED( NoSize, Object, Object );
+            DBTEST_SHIM_TEST_NAMED( NoSize, Array, Array );
+            DBTEST_SHIM_TEST_NAMED( NoSize, BinData, BinData );
 
         } // namespace Validation
 
@@ -1153,7 +1162,7 @@ namespace JsobjTests {
 
                 ASSERT( a != b );
             }
-        };
+        }; DBTEST_SHIM_TEST(init1);
 
         class initParse1 {
         public:
@@ -1167,7 +1176,7 @@ namespace JsobjTests {
 
                 ASSERT( a == b );
             }
-        };
+        }; DBTEST_SHIM_TEST(initParse1);
 
         class append {
         public:
@@ -1184,7 +1193,7 @@ namespace JsobjTests {
                 ASSERT( o["c"].__oid().str() != "000000000000000000000000" );
 
             }
-        };
+        }; DBTEST_SHIM_TEST(append);
 
         class increasing {
         public:
@@ -1206,7 +1215,7 @@ namespace JsobjTests {
                 BSONObj c = g();
                 ASSERT( a.woCompare( c ) < 0 );
             }
-        };
+        }; DBTEST_SHIM_TEST(increasing);
 
         class ToDate {
         public:
@@ -1218,7 +1227,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS( base.millis / 1000, oid.asDateT().millis / 1000 );
                 ASSERT_EQUALS( base.toTimeT(), oid.asTimeT() );
             }
-        };
+        }; DBTEST_SHIM_TEST(ToDate);
 
         class FromDate {
         public:
@@ -1235,7 +1244,7 @@ namespace JsobjTests {
                 ASSERT( BSON("" << min).woCompare( BSON("" << oid) ) < 0  );
                 ASSERT( BSON("" << max).woCompare( BSON("" << oid)  )> 0  );
             }
-        };
+        }; DBTEST_SHIM_TEST(FromDate);
 
         class Seq {
         public:
@@ -1250,7 +1259,7 @@ namespace JsobjTests {
                     ASSERT( a < b );
                 }
             }
-        };
+        }; DBTEST_SHIM_TEST(Seq);
     } // namespace OIDTests
 
 
@@ -1274,7 +1283,7 @@ namespace JsobjTests {
             BSONObj actual() {
                 return BSON( "a" << GT << 1 );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelBasic);
 
         class LabelShares : public LabelBase {
             BSONObj expected() {
@@ -1283,7 +1292,7 @@ namespace JsobjTests {
             BSONObj actual() {
                 return BSON( "z" << "q" << "a" << GT << 1 << "x" << "p" );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelShares);
 
         class LabelDouble : public LabelBase {
             BSONObj expected() {
@@ -1292,7 +1301,7 @@ namespace JsobjTests {
             BSONObj actual() {
                 return BSON( "a" << GT << 1 << LTE << "x" );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelDouble);
 
         class LabelDoubleShares : public LabelBase {
             BSONObj expected() {
@@ -1301,7 +1310,7 @@ namespace JsobjTests {
             BSONObj actual() {
                 return BSON( "z" << "q" << "a" << GT << 1 << LTE << "x" << "x" << "p" );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelDoubleShares);
 
         class LabelSize : public LabelBase {
             BSONObj expected() {
@@ -1310,7 +1319,7 @@ namespace JsobjTests {
             BSONObj actual() {
                 return BSON( "a" << mongo::BSIZE << 4 );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelSize);
 
         class LabelMulti : public LabelBase {
             BSONObj expected() {
@@ -1325,7 +1334,8 @@ namespace JsobjTests {
                              << "b" << NE << 1 << NE << "f" << NE << 22.3
                              << "x" << "p" );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelMulti);
+
         class LabelishOr : public LabelBase {
             BSONObj expected() {
                 return BSON( "$or" << BSON_ARRAY(
@@ -1338,7 +1348,7 @@ namespace JsobjTests {
                            BSON( "b" << NE << 1 << NE << "f" << NE << 22.3),
                            BSON( "x" << "p" ) );
             }
-        };
+        }; DBTEST_SHIM_TEST(LabelishOr);
 
         class Unallowed {
         public:
@@ -1346,7 +1356,7 @@ namespace JsobjTests {
                 ASSERT_THROWS( BSON( GT << 4 ), MsgAssertionException );
                 ASSERT_THROWS( BSON( "a" << 1 << GT << 4 ), MsgAssertionException );
             }
-        };
+        }; DBTEST_SHIM_TEST(Unallowed);
 
         class ElementAppend {
         public:
@@ -1357,7 +1367,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS( NumberInt , b["b"].type() );
                 ASSERT_EQUALS( 17 , b["b"].number() );
             }
-        };
+        }; DBTEST_SHIM_TEST(ElementAppend);
 
         class AllTypes {
         public:
@@ -1440,7 +1450,7 @@ namespace JsobjTests {
             BSONType arrTypeOf(const T& thing) {
                 return BSON_ARRAY(thing).firstElement().type();
             }
-        };
+        }; DBTEST_SHIM_TEST(AllTypes);
     } // namespace ValueStreamTests
 
     class SubObjectBuilder {
@@ -1456,7 +1466,7 @@ namespace JsobjTests {
             ASSERT( ret.valid() );
             ASSERT( ret.woCompare( fromjson( "{a:'bcd',foo:{ggg:44},f:10}" ) ) == 0 );
         }
-    };
+    }; DBTEST_SHIM_TEST(SubObjectBuilder);
 
     class DateBuilder {
     public:
@@ -1465,7 +1475,7 @@ namespace JsobjTests {
             ASSERT( o.firstElement().type() == Date );
             ASSERT( o.firstElement().date() == Date_t(1234567890) );
         }
-    };
+    }; DBTEST_SHIM_TEST(DateBuilder);
 
     class DateNowBuilder {
     public:
@@ -1481,7 +1491,7 @@ namespace JsobjTests {
             ASSERT( e.date() >= before );
             ASSERT( e.date() <= after );
         }
-    };
+    }; DBTEST_SHIM_TEST(DateNowBuilder);
 
     class TimeTBuilder {
     public:
@@ -1503,7 +1513,7 @@ namespace JsobjTests {
             ASSERT( e.date()/1000 >= before/1000 );
             ASSERT( e.date()/1000 <= after/1000 );
         }
-    };
+    }; DBTEST_SHIM_TEST(TimeTBuilder);
 
     class MinMaxKeyBuilder {
     public:
@@ -1519,7 +1529,7 @@ namespace JsobjTests {
             ASSERT( minElement.type() == MinKey );
             ASSERT( maxElement.type() == MaxKey );
         }
-    };
+    }; DBTEST_SHIM_TEST(MinMaxKeyBuilder);
 
     class MinMaxElementTest {
     public:
@@ -1547,7 +1557,7 @@ namespace JsobjTests {
                 ASSERT( max( t ).woCompare( max( t ) ) == 0 );
             }
         }
-    };
+    }; DBTEST_SHIM_TEST(MinMaxElementTest);
 
     class ExtractFieldsTest {
     public:
@@ -1559,7 +1569,7 @@ namespace JsobjTests {
 
             verify( (string)"a" == x.extractFields( BSON( "a" << 1 << "c" << 1 ) ).firstElementFieldName() );
         }
-    };
+    }; DBTEST_SHIM_TEST(ExtractFieldsTest);
 
     class ComparatorTest {
     public:
@@ -1607,7 +1617,7 @@ namespace JsobjTests {
             lt( c , two("B","A") , two( "C" , "" ) );
 
         }
-    };
+    }; DBTEST_SHIM_TEST(ComparatorTest);
 
     class CompatBSON {
     public:
@@ -1629,7 +1639,7 @@ namespace JsobjTests {
             RAWBSONTEST( BSON( "x" << 4 ) , 12 , "d1ed8dbf79b78fa215e2ded74548d89d" );
 
         }
-    };
+    }; DBTEST_SHIM_TEST(CompatBSON);
 
     class CompareDottedFieldNamesTest {
     public:
@@ -1650,7 +1660,7 @@ namespace JsobjTests {
             t( LEFT_SUBFIELD , "a.x" , "a" );
             t( LEFT_SUBFIELD , "a.4" , "a" );
         }
-    };
+    }; DBTEST_SHIM_TEST(CompareDottedFieldNamesTest);
 
     class CompareDottedArrayFieldNamesTest {
     public:
@@ -1673,7 +1683,7 @@ namespace JsobjTests {
             t( LEFT_SUBFIELD , "5.4" , "5" );
             t( LEFT_SUBFIELD , "5.x" , "5" );
         }
-    };
+    }; DBTEST_SHIM_TEST(CompareDottedArrayFieldNamesTest);
     
     struct NestedDottedConversions {
         void t(const BSONObj& nest, const BSONObj& dot) {
@@ -1687,7 +1697,7 @@ namespace JsobjTests {
             t( BSON("a" << BSON("b" << 1 << "c" << 1) << "d" << 1), BSON("a.b" << 1 << "a.c" << 1 << "d" << 1) );
             t( BSON("a" << BSON("b" << 1 << "c" << 1 << "e" << BSON("f" << 1)) << "d" << 1), BSON("a.b" << 1 << "a.c" << 1 << "a.e.f" << 1 << "d" << 1) );
         }
-    };
+    }; DBTEST_SHIM_TEST(NestedDottedConversions);
 
     struct BSONArrayBuilderTest {
         void run() {
@@ -1733,7 +1743,7 @@ namespace JsobjTests {
             ASSERT_EQUALS(o["arr"].type(), Array);
             ASSERT_EQUALS(o["arr2"].type(), Array);
         }
-    };
+    }; DBTEST_SHIM_TEST(BSONArrayBuilderTest);
 
     struct ArrayMacroTest {
         void run() {
@@ -1746,7 +1756,7 @@ namespace JsobjTests {
             ASSERT_EQUALS(arr["2"].type(), Object);
             ASSERT_EQUALS(arr["2"].embeddedObject()["foo"].type(), Array);
         }
-    };
+    }; DBTEST_SHIM_TEST(ArrayMacroTest);
 
     class NumberParsing {
     public:
@@ -1775,7 +1785,7 @@ namespace JsobjTests {
 
             ASSERT_EQUALS( a.obj() , b.obj() );
         }
-    };
+    }; DBTEST_SHIM_TEST(NumberParsing);
 
     class bson2settest {
     public:
@@ -1805,7 +1815,7 @@ namespace JsobjTests {
             ASSERT_EQUALS( "11", string( i2.next().fieldName() ) );
         }
 
-    };
+    }; DBTEST_SHIM_TEST(bson2settest);
     
     class BSONArrayIteratorSorted {
     public:
@@ -1825,7 +1835,7 @@ namespace JsobjTests {
             }
             ASSERT( !sorted.more() );
         }
-    };
+    }; DBTEST_SHIM_TEST(BSONArrayIteratorSorted);
 
     class checkForStorageTests {
     public:
@@ -1908,7 +1918,7 @@ namespace JsobjTests {
             bad( "{_id:  [1]}" );
 
         }
-    };
+    }; DBTEST_SHIM_TEST(checkForStorageTests);
 
     class InvalidIDFind {
     public:
@@ -1942,7 +1952,7 @@ namespace JsobjTests {
 
 
         }
-    };
+    }; DBTEST_SHIM_TEST(InvalidIDFind);
 
     class ElementSetTest {
     public:
@@ -1989,7 +1999,7 @@ namespace JsobjTests {
                 ASSERT_EQUALS( 2U , x.size() );
             }
         }
-    };
+    }; DBTEST_SHIM_TEST(ElementSetTest);
 
     class EmbeddedNumbers {
     public:
@@ -2000,7 +2010,7 @@ namespace JsobjTests {
             ASSERT_EQUALS( x , y );
             ASSERT_EQUALS( 0 , x.woCompare( y ) );
         }
-    };
+    }; DBTEST_SHIM_TEST(EmbeddedNumbers);
 
     class BuilderPartialItearte {
     public:
@@ -2032,7 +2042,7 @@ namespace JsobjTests {
             }
 
         }
-    };
+    }; DBTEST_SHIM_TEST(BuilderPartialItearte);
 
     class BSONForEachTest {
     public:
@@ -2047,7 +2057,7 @@ namespace JsobjTests {
 
             ASSERT_EQUALS( count , 1+2+3 );
         }
-    };
+    }; DBTEST_SHIM_TEST(BSONForEachTest);
 
     class CompareOps {
     public:
@@ -2068,7 +2078,7 @@ namespace JsobjTests {
             ASSERT( f >= e );
             ASSERT( ! ( f > e ) );
         }
-    };
+    }; DBTEST_SHIM_TEST(CompareOps);
 
     class HashingTest {
     public:
@@ -2103,7 +2113,7 @@ namespace JsobjTests {
             }
 
         }
-    };
+    }; DBTEST_SHIM_TEST(HashingTest);
 
     class NestedBuilderOversize {
     public:
@@ -2124,112 +2134,112 @@ namespace JsobjTests {
                     throw;
             }
         }
-    };
+    }; DBTEST_SHIM_TEST(NestedBuilderOversize);
 
-    class All : public Suite {
-    public:
-        All() : Suite( "jsobj" ) {
-        }
+    // class All : public Suite {
+    // public:
+    //     All() : Suite( "jsobj" ) {
+    //     }
 
-        void setupTests() {
-            add< BufBuilderBasic >();
-            add< BufBuilderReallocLimit >();
-            add< BSONElementBasic >();
-            add< BSONObjTests::NullString >();
-            add< BSONObjTests::Create >();
-            add< BSONObjTests::WoCompareBasic >();
-            add< BSONObjTests::NumericCompareBasic >();
-            add< BSONObjTests::WoCompareEmbeddedObject >();
-            add< BSONObjTests::WoCompareEmbeddedArray >();
-            add< BSONObjTests::WoCompareOrdered >();
-            add< BSONObjTests::WoCompareDifferentLength >();
-            add< BSONObjTests::WoSortOrder >();
-            add< BSONObjTests::IsPrefixOf >();
-            add< BSONObjTests::MultiKeySortOrder > ();
-            add< BSONObjTests::Nan >();
-            add< BSONObjTests::AsTempObj >();
-            add< BSONObjTests::AppendIntOrLL >();
-            add< BSONObjTests::AppendNumber >();
-            add< BSONObjTests::ToStringArray >();
-            add< BSONObjTests::ToStringNumber >();
-            add< BSONObjTests::AppendAs >();
-            add< BSONObjTests::ArrayAppendAs >();
-            add< BSONObjTests::GetField >();
-            add< BSONObjTests::ToStringRecursionDepth >();
-            add< BSONObjTests::StringWithNull >();
+    //     void setupTests() {
+    //         add< BufBuilderBasic >();
+    //         add< BufBuilderReallocLimit >();
+    //         add< BSONElementBasic >();
+    //         add< BSONObjTests::NullString >();
+    //         add< BSONObjTests::Create >();
+    //         add< BSONObjTests::WoCompareBasic >();
+    //         add< BSONObjTests::NumericCompareBasic >();
+    //         add< BSONObjTests::WoCompareEmbeddedObject >();
+    //         add< BSONObjTests::WoCompareEmbeddedArray >();
+    //         add< BSONObjTests::WoCompareOrdered >();
+    //         add< BSONObjTests::WoCompareDifferentLength >();
+    //         add< BSONObjTests::WoSortOrder >();
+    //         add< BSONObjTests::IsPrefixOf >();
+    //         add< BSONObjTests::MultiKeySortOrder > ();
+    //         add< BSONObjTests::Nan >();
+    //         add< BSONObjTests::AsTempObj >();
+    //         add< BSONObjTests::AppendIntOrLL >();
+    //         add< BSONObjTests::AppendNumber >();
+    //         add< BSONObjTests::ToStringArray >();
+    //         add< BSONObjTests::ToStringNumber >();
+    //         add< BSONObjTests::AppendAs >();
+    //         add< BSONObjTests::ArrayAppendAs >();
+    //         add< BSONObjTests::GetField >();
+    //         add< BSONObjTests::ToStringRecursionDepth >();
+    //         add< BSONObjTests::StringWithNull >();
 
-            add< BSONObjTests::Validation::BadType >();
-            add< BSONObjTests::Validation::EooBeforeEnd >();
-            add< BSONObjTests::Validation::Undefined >();
-            add< BSONObjTests::Validation::TotalSizeTooSmall >();
-            add< BSONObjTests::Validation::EooMissing >();
-            add< BSONObjTests::Validation::WrongStringSize >();
-            add< BSONObjTests::Validation::ZeroStringSize >();
-            add< BSONObjTests::Validation::NegativeStringSize >();
-            add< BSONObjTests::Validation::WrongSubobjectSize >();
-            add< BSONObjTests::Validation::WrongDbrefNsSize >();
-            add< BSONObjTests::Validation::NoFieldNameEnd >();
-            add< BSONObjTests::Validation::BadRegex >();
-            add< BSONObjTests::Validation::BadRegexOptions >();
-            add< BSONObjTests::Validation::CodeWScopeSmallSize >();
-            add< BSONObjTests::Validation::CodeWScopeZeroStrSize >();
-            add< BSONObjTests::Validation::CodeWScopeSmallStrSize >();
-            add< BSONObjTests::Validation::CodeWScopeNoSizeForObj >();
-            add< BSONObjTests::Validation::CodeWScopeSmallObjSize >();
-            add< BSONObjTests::Validation::CodeWScopeBadObject >();
-            add< BSONObjTests::Validation::NoSize >( Symbol );
-            add< BSONObjTests::Validation::NoSize >( Code );
-            add< BSONObjTests::Validation::NoSize >( String );
-            add< BSONObjTests::Validation::NoSize >( CodeWScope );
-            add< BSONObjTests::Validation::NoSize >( DBRef );
-            add< BSONObjTests::Validation::NoSize >( Object );
-            add< BSONObjTests::Validation::NoSize >( Array );
-            add< BSONObjTests::Validation::NoSize >( BinData );
-            add< OIDTests::init1 >();
-            add< OIDTests::initParse1 >();
-            add< OIDTests::append >();
-            add< OIDTests::increasing >();
-            add< OIDTests::ToDate >();
-            add< OIDTests::FromDate >();
-            add< OIDTests::Seq >();
-            add< ValueStreamTests::LabelBasic >();
-            add< ValueStreamTests::LabelShares >();
-            add< ValueStreamTests::LabelDouble >();
-            add< ValueStreamTests::LabelDoubleShares >();
-            add< ValueStreamTests::LabelSize >();
-            add< ValueStreamTests::LabelMulti >();
-            add< ValueStreamTests::LabelishOr >();
-            add< ValueStreamTests::Unallowed >();
-            add< ValueStreamTests::ElementAppend >();
-            add< ValueStreamTests::AllTypes >();
-            add< SubObjectBuilder >();
-            add< DateBuilder >();
-            add< DateNowBuilder >();
-            add< TimeTBuilder >();
-            add< MinMaxKeyBuilder >();
-            add< MinMaxElementTest >();
-            add< ComparatorTest >();
-            add< ExtractFieldsTest >();
-            add< CompatBSON >();
-            add< CompareDottedFieldNamesTest >();
-            add< CompareDottedArrayFieldNamesTest >();
-            add< NestedDottedConversions >();
-            add< BSONArrayBuilderTest >();
-            add< ArrayMacroTest >();
-            add< NumberParsing >();
-            add< bson2settest >();
-            add< BSONArrayIteratorSorted >();
-            add< checkForStorageTests >();
-            add< InvalidIDFind >();
-            add< ElementSetTest >();
-            add< EmbeddedNumbers >();
-            add< BuilderPartialItearte >();
-            add< BSONForEachTest >();
-            add< CompareOps >();
-            add< HashingTest >();
-            add< NestedBuilderOversize >();
-        }
-    } myall;
+    //         add< BSONObjTests::Validation::BadType >();
+    //         add< BSONObjTests::Validation::EooBeforeEnd >();
+    //         add< BSONObjTests::Validation::Undefined >();
+    //         add< BSONObjTests::Validation::TotalSizeTooSmall >();
+    //         add< BSONObjTests::Validation::EooMissing >();
+    //         add< BSONObjTests::Validation::WrongStringSize >();
+    //         add< BSONObjTests::Validation::ZeroStringSize >();
+    //         add< BSONObjTests::Validation::NegativeStringSize >();
+    //         add< BSONObjTests::Validation::WrongSubobjectSize >();
+    //         add< BSONObjTests::Validation::WrongDbrefNsSize >();
+    //         add< BSONObjTests::Validation::NoFieldNameEnd >();
+    //         add< BSONObjTests::Validation::BadRegex >();
+    //         add< BSONObjTests::Validation::BadRegexOptions >();
+    //         add< BSONObjTests::Validation::CodeWScopeSmallSize >();
+    //         add< BSONObjTests::Validation::CodeWScopeZeroStrSize >();
+    //         add< BSONObjTests::Validation::CodeWScopeSmallStrSize >();
+    //         add< BSONObjTests::Validation::CodeWScopeNoSizeForObj >();
+    //         add< BSONObjTests::Validation::CodeWScopeSmallObjSize >();
+    //         add< BSONObjTests::Validation::CodeWScopeBadObject >();
+    //         add< BSONObjTests::Validation::NoSize >( Symbol );
+    //         add< BSONObjTests::Validation::NoSize >( Code );
+    //         add< BSONObjTests::Validation::NoSize >( String );
+    //         add< BSONObjTests::Validation::NoSize >( CodeWScope );
+    //         add< BSONObjTests::Validation::NoSize >( DBRef );
+    //         add< BSONObjTests::Validation::NoSize >( Object );
+    //         add< BSONObjTests::Validation::NoSize >( Array );
+    //         add< BSONObjTests::Validation::NoSize >( BinData );
+    //         add< OIDTests::init1 >();
+    //         add< OIDTests::initParse1 >();
+    //         add< OIDTests::append >();
+    //         add< OIDTests::increasing >();
+    //         add< OIDTests::ToDate >();
+    //         add< OIDTests::FromDate >();
+    //         add< OIDTests::Seq >();
+    //         add< ValueStreamTests::LabelBasic >();
+    //         add< ValueStreamTests::LabelShares >();
+    //         add< ValueStreamTests::LabelDouble >();
+    //         add< ValueStreamTests::LabelDoubleShares >();
+    //         add< ValueStreamTests::LabelSize >();
+    //         add< ValueStreamTests::LabelMulti >();
+    //         add< ValueStreamTests::LabelishOr >();
+    //         add< ValueStreamTests::Unallowed >();
+    //         add< ValueStreamTests::ElementAppend >();
+    //         add< ValueStreamTests::AllTypes >();
+    //         add< SubObjectBuilder >();
+    //         add< DateBuilder >();
+    //         add< DateNowBuilder >();
+    //         add< TimeTBuilder >();
+    //         add< MinMaxKeyBuilder >();
+    //         add< MinMaxElementTest >();
+    //         add< ComparatorTest >();
+    //         add< ExtractFieldsTest >();
+    //         add< CompatBSON >();
+    //         add< CompareDottedFieldNamesTest >();
+    //         add< CompareDottedArrayFieldNamesTest >();
+    //         add< NestedDottedConversions >();
+    //         add< BSONArrayBuilderTest >();
+    //         add< ArrayMacroTest >();
+    //         add< NumberParsing >();
+    //         add< bson2settest >();
+    //         add< BSONArrayIteratorSorted >();
+    //         add< checkForStorageTests >();
+    //         add< InvalidIDFind >();
+    //         add< ElementSetTest >();
+    //         add< EmbeddedNumbers >();
+    //         add< BuilderPartialItearte >();
+    //         add< BSONForEachTest >();
+    //         add< CompareOps >();
+    //         add< HashingTest >();
+    //         add< NestedBuilderOversize >();
+    //     }
+    // } myall;
 
 } // namespace JsobjTests
 
