@@ -87,10 +87,10 @@ add_library(clienttest_main clienttest_main.cpp)
 target_link_libraries(clienttest_main mongoclient gtest)
 
 macro (create_test suite_name test_name)
-  add_executable (${test_name} ${test_name}.cpp)
-  add_dependencies (${test_name} mongo-cxx-driver googletest)
-  target_link_libraries (${test_name} mongoclient ${Boost_LIBRARIES} gtest clienttest_main)
-  add_test (${suite_name}.${test_name} ${test_name})
+  add_executable (${suite_name}.${test_name} ${test_name}.cpp)
+  add_dependencies (${suite_name}.${test_name} mongo-cxx-driver googletest)
+  target_link_libraries (${suite_name}.${test_name} mongoclient ${Boost_LIBRARIES} gtest clienttest_main)
+  add_test (${suite_name}.${test_name} ${suite_name}.${test_name})
 endmacro ()
 
 macro (create_tests suite_name)
@@ -103,21 +103,4 @@ create_tests (bson
   test_oid
 )
 
-macro (create_ported_test test_path test_name)
-  add_executable (${test_name} ${test_path}/${test_name}.cpp)
-  add_dependencies (${test_name} mongo-cxx-driver googletest)
-  target_link_libraries(${test_name} mongoclient ${Boost_LIBRARIES} gtest clienttest_main)
-  add_test (ported.${test_name} ${test_name})
-endmacro ()
-
-create_ported_test (ported/src/mongo/bson bson_field_test)
-create_ported_test (ported/src/mongo/bson bson_obj_test)
-create_ported_test (ported/src/mongo/bson bson_validate_test)
-create_ported_test (ported/src/mongo/bson bsonobjbuilder_test)
-
-create_ported_test (ported/src/mongo/client replica_set_monitor_test)
-
-create_ported_test (ported/src/mongo/dbtests jsobjtests)
-#create_ported_test (ported/src/mongo/dbtests jsontests)
-
-create_ported_test (ported/src/mongo/util/net sock_test)
+add_subdirectory(ported)
