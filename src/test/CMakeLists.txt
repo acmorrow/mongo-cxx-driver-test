@@ -83,10 +83,13 @@ include_directories (${install_dir}/include)
 include_directories (${PROJECT_SOURCE_DIR}/src/test)
 link_directories (${install_dir}/lib)
 
+add_library(clienttest_main clienttest_main.cpp)
+target_link_libraries(clienttest_main mongoclient gtest)
+
 macro (create_test suite_name test_name)
   add_executable (${test_name} ${test_name}.cpp)
   add_dependencies (${test_name} mongo-cxx-driver googletest)
-  target_link_libraries (${test_name} mongoclient ${Boost_LIBRARIES} gtest gtest_main)
+  target_link_libraries (${test_name} mongoclient ${Boost_LIBRARIES} gtest clienttest_main)
   add_test (${suite_name}.${test_name} ${test_name})
 endmacro ()
 
@@ -103,7 +106,7 @@ create_tests (bson
 macro (create_ported_test test_path test_name)
   add_executable (${test_name} ${test_path}/${test_name}.cpp)
   add_dependencies (${test_name} mongo-cxx-driver googletest)
-  target_link_libraries(${test_name} mongoclient ${Boost_LIBRARIES} gtest gtest_main)
+  target_link_libraries(${test_name} mongoclient ${Boost_LIBRARIES} gtest clienttest_main)
   add_test (ported.${test_name} ${test_name})
 endmacro ()
 
