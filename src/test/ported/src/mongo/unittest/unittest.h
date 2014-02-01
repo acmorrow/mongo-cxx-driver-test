@@ -12,7 +12,8 @@
 #include <gtest/gtest.h>
 
 #include <boost/shared_ptr.hpp>
-#include <mongo/util/mongoutils/str.h>
+
+using boost::shared_ptr;
 
 #define ASSERT ASSERT_TRUE
 #define ASSERT_EQUALS ASSERT_EQ
@@ -42,8 +43,11 @@ namespace mongo {
 } // mongo
 
 using namespace mongo;
+
+#include <mongo/bson/bson.h>
+#include <mongo/util/mongoutils/str.h>
+
 using namespace mongoutils;
-using boost::shared_ptr;
 
 #define DBTEST_SHIM_TEST_NAMED(klass, name, ...)     \
     TEST(klass, name) {                              \
