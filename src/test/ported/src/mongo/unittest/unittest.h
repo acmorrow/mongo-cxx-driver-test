@@ -12,7 +12,8 @@
 #include <gtest/gtest.h>
 
 #include <boost/shared_ptr.hpp>
-#include <mongo/util/mongoutils/str.h>
+
+using boost::shared_ptr;
 
 #define ASSERT ASSERT_TRUE
 #define ASSERT_EQUALS ASSERT_EQ
@@ -20,7 +21,9 @@
 #define ASSERT_GREATER_THAN ASSERT_GT
 #define ASSERT_LESS_THAN ASSERT_LE
 #define ASSERT_LESS_THAN_OR_EQUALS ASSERT_LE
+#define ASSERT_LESS_THAN ASSERT_LT
 #define ASSERT_GREATER_THAN_OR_EQUALS ASSERT_GE
+#define ASSERT_GREATER_THAN ASSERT_GT
 #define ASSERT_APPROX_EQUAL ASSERT_NEAR
 #define ASSERT_OK(EXPRESSION) ASSERT_EQUALS(::mongo::Status::OK(), (EXPRESSION))
 #define ASSERT_NOT_OK(EXPRESSION) ASSERT_NOT_EQUALS(::mongo::Status::OK(), (EXPRESSION))
@@ -44,8 +47,11 @@ namespace mongo {
 } // mongo
 
 using namespace mongo;
+
+#include <mongo/bson/bson.h>
+#include <mongo/util/mongoutils/str.h>
+
 using namespace mongoutils;
-using boost::shared_ptr;
 
 #define DBTEST_SHIM_TEST_NAMED(klass, name, ...)     \
     TEST(klass, name) {                              \

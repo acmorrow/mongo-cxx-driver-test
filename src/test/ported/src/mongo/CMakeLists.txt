@@ -1,4 +1,7 @@
+add_subdirectory(base)
 add_subdirectory(bson)
 add_subdirectory(client)
 add_subdirectory(dbtests)
+add_subdirectory(logger)
+add_subdirectory(platform)
 add_subdirectory(util)
