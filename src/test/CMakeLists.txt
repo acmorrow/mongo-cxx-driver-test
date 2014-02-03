@@ -30,8 +30,6 @@ link_directories (${binary_dir})
 # TODO: Make concurrency of build match cmake (how?)
 set (MONGOCLIENT_SCONS_FLAGS
   ${MONGOCLIENT_SCONS_FLAGS}
-  --cc=${CMAKE_C_COMPILER}
-  --cxx=${CMAKE_CXX_COMPILER}
   --warn=no-missing-sconscript
   --cache
   --full
@@ -53,6 +51,13 @@ if (APPLE)
   if(NOT ${CMAKE_SYSTEM_VERSION} VERSION_LESS "13")
     list (APPEND MONGOCLIENT_SCONS_FLAGS --osx-version-min=10.8 --libc++)
   endif ()
+endif ()
+
+if (NOT WIN32)
+    list (APPEND MONGOCLIENT_SCONS_FLAGS
+        --cc=${CMAKE_C_COMPILER}
+        --cxx=${CMAKE_CXX_COMPILER}
+    )
 endif ()
 
 # If we are doing a debug build, then build mongoclient the same way
