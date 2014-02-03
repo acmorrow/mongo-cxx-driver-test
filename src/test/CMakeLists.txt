@@ -76,7 +76,7 @@ if (BUILD_SHARED_LIBS)
 endif ()
 
 find_program(SCONS_BINARY
-    NAME scons
+    NAME scons scons.bat
     PATHS C:/Python27/Scripts
 )
 
