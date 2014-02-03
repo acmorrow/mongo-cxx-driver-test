@@ -37,8 +37,6 @@ set (MONGOCLIENT_SCONS_FLAGS
   --allocator=system
   --cpppath=${Boost_INCLUDE_DIRS}
   --libpath=${Boost_LIBRARY_DIRS}
-  --ssl
-  --use-sasl-client
 )
 
 # If we are building with SSL, enable it for scons
