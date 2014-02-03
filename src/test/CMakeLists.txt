@@ -75,6 +75,11 @@ if (BUILD_SHARED_LIBS)
   list (APPEND MONGOCLIENT_SCONS_FLAGS --sharedclient)
 endif ()
 
+find_program(SCONS_BINARY
+    NAME scons
+    PATHS C:/Python27/Scripts
+)
+
 ExternalProject_Add(
   mongo-cxx-driver
   GIT_REPOSITORY https://github.com/TylerBrock/mongo-cpp-driver.git
@@ -84,7 +89,7 @@ ExternalProject_Add(
   CONFIGURE_COMMAND ""
   BUILD_IN_SOURCE 1
   BUILD_COMMAND ""
-  INSTALL_COMMAND scons --prefix=<INSTALL_DIR> ${MONGOCLIENT_SCONS_FLAGS} install-mongoclient
+  INSTALL_COMMAND ${SCONS_BINARY} --prefix=<INSTALL_DIR> ${MONGOCLIENT_SCONS_FLAGS} install-mongoclient
 )
 
 # NOTE: The following should not be necessary if libmongoclient had a properly constructed
