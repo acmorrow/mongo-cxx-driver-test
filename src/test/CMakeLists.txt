@@ -41,6 +41,14 @@ set (MONGOCLIENT_SCONS_FLAGS
   --use-sasl-client
 )
 
+# If we are building with SSL, enable it for scons
+if (SSL)
+    list (APPEND MONGOCLIENT_SCONS_FLAGS
+        --ssl
+        --use-sasl-client
+    )
+endif ()
+
 # If we are using address sanitizer, enable that too
 if (SANITIZE)
   list (APPEND MONGOCLIENT_SCONS_FLAGS --sanitize=address)

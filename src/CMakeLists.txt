@@ -11,6 +11,8 @@ find_package (Boost
 include_directories (${Boost_INCLUDE_DIRS})
 link_directories (${Boost_LIBRARY_DIRS})
 
+option(SSL "SSL" ON)
+
 option(SANITIZE "SANITIZE" OFF)
 if(SANITIZE)
   if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
