@@ -202,13 +202,6 @@ namespace {
     }
 #endif
 
-    class CallMongoInit {
-        public:
-            CallMongoInit() {
-                ::mongo::runGlobalInitializersOrDie(0, NULL, NULL);
-            }
-    } callInit;
-
     // This should match the name of the fail point declared in sock.cpp.
     const char kSocketFailPointName[] = "throwSockExcep";
 
