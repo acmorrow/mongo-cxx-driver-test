@@ -13,9 +13,9 @@
  *    limitations under the License.
  */
 
+#include <limits>
 #include <string>
 
-#include "mongo/bson/bson.h"
 #include "mongo/bson/util/bson_extract.h"
 #include "mongo/db/jsobj.h"
 #include "mongo/unittest/unittest.h"

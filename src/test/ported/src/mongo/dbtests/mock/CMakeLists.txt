@@ -1,5 +1,3 @@
-add_definitions(-DMONGO_EXPOSE_MACROS)
-
 add_library(mocklib
   mock_conn_registry.cpp
   mock_dbclient_connection.cpp

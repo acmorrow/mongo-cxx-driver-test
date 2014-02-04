@@ -6,12 +6,12 @@
  * Unit tests of the unittest framework itself.
  */
 
-#include "mongo/unittest/unittest.h"
 #include "mongo/logger/console.h"
 #include <iostream>
 #include <ostream>
 #include <sstream>
 #include <string>
+#include "mongo/unittest/unittest.h"
 
 namespace {
 
