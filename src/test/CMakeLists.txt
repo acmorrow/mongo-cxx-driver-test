@@ -77,7 +77,7 @@ endif ()
 
 find_program(SCONS_BINARY
     NAME scons scons.bat
-    PATHS C:/Python27/Scripts
+    PATHS C:/Python27/Scripts /usr/bin/scons
 )
 
 ExternalProject_Add(
