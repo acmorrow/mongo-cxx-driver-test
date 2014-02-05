@@ -73,6 +73,28 @@ namespace mongo {
             }
 
             ~DummyServerFixture() {
+                delete _thread;
+                delete _listener;
+            }
+
+            void SetUp() {
+                mongo::DBClientConnection conn;
+                mongo::Timer timer;
+
+                // Make sure the dummy server is up and running before proceeding
+                while (true) {
+                    try {
+                        conn.connect(TARGET_HOST);
+                        break;
+                    } catch (const mongo::ConnectException&) {
+                        if (timer.seconds() > 20) {
+                            FAIL() << "Timed out connecting to dummy server";
+                        }
+                    }
+                }
+            }
+
+            void TearDown() {
                 mongo::ListeningSockets::get()->closeAll();
                 mongo::PoolForHost::setMaxPerHost(_maxPoolSizePerHost);
                 mongo::ScopedDbConnection::clearPool();
@@ -85,9 +107,6 @@ namespace mongo {
 
                 // ensure listener thread is finished before delete
                 _thread->join();
-
-                delete _thread;
-                delete _listener;
             }
 
         protected:
